@@ -8,7 +8,7 @@ A PHP plugin for Fawry payment gateway.
 
 ## Features
 
-- Creat and manage card tokens 
+- Create and manage card tokens 
 - Create a payment with cards with 3D secure
 - Create a payment with card tokens with 3D secure
 - Refund a payment
