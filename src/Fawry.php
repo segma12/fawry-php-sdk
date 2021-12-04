@@ -386,7 +386,7 @@ class Fawry
      * @param string $lang
      * @return mixed
      */
-    public function cancelUnpaidPayment($merchantAccount, $orderReferenceNumber, $lang = 'en-gb') {
+    public function cancelUnpaidPayment($orderReferenceNumber, $lang = 'en-gb') {
         $url = 'ECommerceWeb/api/orders/cancel-unpaid-order';
         return $this->post(
             $this->endpoint($url), [
