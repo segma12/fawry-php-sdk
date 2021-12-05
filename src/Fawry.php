@@ -171,7 +171,7 @@ class Fawry
                 'merchantRefNum' => $merchantRefNum,
                 'paymentMethod' => 'CARD',
                 'cardToken' => $customer_card_token,
-                'customerProfileId' => $customer_id,
+                'customerProfileId' => md5($customer_id),
                 'customerMobile' => $customer_mobile,
                 'customerEmail' => $customer_email,
                 'amount' => (float) $amount,
@@ -181,7 +181,7 @@ class Fawry
                 'signature' => hash('sha256',
                     $this->merchant_code .
                     $merchantRefNum.
-                    $customer_id .
+                    md5($customer_id) .
                     'CARD' .
                     (float) $amount.
                     $customer_card_token .
@@ -216,7 +216,7 @@ class Fawry
                 "customerName" => $customer_name,
                 "customerMobile" => $customer_mobile,
                 "customerEmail" => $customer_email,
-                "customerProfileId" => $customer_id,
+                "customerProfileId" => md5($customer_id),
                 "cardToken" => $customer_card_token,
                 "cvv" => $cvv,
                 "merchantRefNum" => $merchantRefNum,
@@ -229,7 +229,7 @@ class Fawry
                 "returnUrl" => $callbackURL,
                 "signature" => hash('sha256', $this->merchant_code.
                     $merchantRefNum .
-                    $customer_id .
+                    md5($customer_id) .
                     'CARD' .
                     (float) $amount .
                     $customer_card_token .
@@ -269,7 +269,7 @@ class Fawry
                 "customerName" => $customer_name,
                 "customerMobile" => $customer_mobile,
                 "customerEmail" => $customer_email,
-                "customerProfileId" => $customer_id,
+                "customerProfileId" => md5($customer_id),
                 "cardNumber" => $card_number,
                 "cardExpiryYear" => $card_expiry_year,
                 "cardExpiryMonth" => $card_expiry_month,
@@ -283,7 +283,7 @@ class Fawry
                 "description" => $description,
                 "signature" => hash("sha256", $this->merchant_code .
                     $merchantRefNum .
-                    $customer_id .
+                    md5($customer_id) .
                     'CARD' .
                     (float) $amount .
                     $card_number .
@@ -323,7 +323,7 @@ class Fawry
                 "customerName" => $customer_name,
                 "customerMobile" => $customer_mobile,
                 "customerEmail" => $customer_email,
-                "customerProfileId" => $customer_id,
+                "customerProfileId" => md5($customer_id),
                 "cardNumber" => $card_number,
                 "cardExpiryYear" => $card_expiry_year,
                 "cardExpiryMonth" => $card_expiry_month,
@@ -340,7 +340,7 @@ class Fawry
                 "returnUrl" => $calbackURL,
                 "signature" => hash("sha256", $this->merchant_code .
                     $merchantRefNum .
-                    $customer_id .
+                    md5($customer_id) .
                     'CARD' .
                     (float) $amount .
                     $card_number .
