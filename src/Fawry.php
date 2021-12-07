@@ -50,7 +50,6 @@ class Fawry
         $ch = curl_init(urldecode($url."?".$params));
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST,  "GET");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
         return json_decode(curl_exec($ch));
     }
 
@@ -62,10 +61,9 @@ class Fawry
     private function delete($url, $data)
     {
         $params = http_build_query($data);
-        $ch = curl_init(urlencode($url."?".$params));
+        $ch = curl_init(urldecode($url."?".$params));
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST,  "DELETE");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
         return json_decode(curl_exec($ch));
     }
 
