@@ -30,7 +30,7 @@ Install with `Composer`
     
 ## Usage
 
-### Init new instance
+### Initiating new instance
 
 First thing you have to create a new instance from Fawry class.
 
@@ -89,13 +89,13 @@ When you move to live you can set it false or ignore it.
 ### Refund payment
 
 ```php
-    $refund = $fawry->refund($merchant_ref, $amount, $reason);
+    $refund = $fawry->refund($ref_number, $amount, $reason);
 ```
 
 ### Cancel an unpaid payment
 
 ```php
-    $orderCancelation = $fawry->cancelUnpaidPayment($merchant_ref);
+    $orderCancelation = $fawry->cancelUnpaidPayment($ref_number);
 ```
 
 

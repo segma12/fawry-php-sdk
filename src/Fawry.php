@@ -22,16 +22,6 @@ class Fawry
     }
 
     /**
-     * @param $api_name
-     * @return string
-     */
-    public function endpoint($api_name) {
-        return $this->app_debug ?
-            'https://atfawry.fawrystaging.com/' . $api_name :
-            'https://www.atfawry.com/' . $api_name;
-    }
-
-    /**
      * @param $url
      * @param $data
      * @return mixed
@@ -71,7 +61,8 @@ class Fawry
      */
     private function delete($url, $data)
     {
-        $ch = curl_init($url."?".http_build_query($data));
+        $params = http_build_query($data);
+        $ch = curl_init(urlencode($url."?".$params));
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST,  "DELETE");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
@@ -91,10 +82,9 @@ class Fawry
      */
     public function createCardToken($customer_id, $customer_mobile, $customer_email, $card_number, $expiry_year, $expiry_month, $cvv, $isDefault = false) {
         $url = $this->app_debug ?
-            'ECommerceWeb/Fawry/cards/cardToken' :
-            'ECommerceWeb/api/cards/cardToken';
-        $result =  $this->post(
-            $this->endpoint($url), [
+            'https://atfawry.fawrystaging.com/fawrypay-api/api/cards/cardToken' :
+            'https://www.atfawry.com/ECommerceWeb/api/cards/cardToken';
+        return $this->post($url, [
                 "merchantCode" => $this->merchant_code,
                 "customerProfileId" => md5($customer_id),
                 "customerMobile" => $customer_mobile,
@@ -106,7 +96,6 @@ class Fawry
                 'isDefault' => $isDefault
             ]
         );
-        return $result;
     }
 
     /**
@@ -116,10 +105,9 @@ class Fawry
     public function listCustomerTokens($customer_id)
     {
         $url = $this->app_debug ?
-            'ECommerceWeb/Fawry/cards/cardToken' :
-            'ECommerceWeb/api/cards/cardToken';
-        return $this->get(
-            $this->endpoint($url), [
+            'https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/cards/cardToken' :
+            'https://www.FawryPay.com/ECommerceWeb/Fawry/cards/cardToken';
+        return $this->get($url, [
                 'merchantCode' => $this->merchant_code,
                 'customerProfileId' => md5($customer_id),
                 'signature' => hash('sha256',
@@ -138,16 +126,16 @@ class Fawry
      */
     public function deleteCardToken($customer_id, $customer_card_token)
     {
-        $url = 'ECommerceWeb/Fawry/cards/cardToken';
-        $result =  $this->delete(
-            $this->endpoint($url), [
+        $url = $this->app_debug ? 'https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/cards/cardToken':
+        'https://www.FawryPay.com/ECommerceWeb/Fawry/cards/cardToken';
+        return $this->delete($url, [
                 'merchantCode' => $this->merchant_code,
                 'customerProfileId' => md5($customer_id),
+                'cardToken' => $customer_card_token,
                 'signature' => hash('sha256', $this->merchant_code.md5($customer_id).$customer_card_token.$this->merchant_key
                 )
             ]
         );
-        return $result;
     }
 
     /**
@@ -164,9 +152,9 @@ class Fawry
      */
     public function payByCardToken($merchantRefNum, $customer_card_token, $customer_id, $customer_mobile, $customer_email, $amount, $currency = 'EGP', $chargeItems = [], $description = '')
     {
-        $url = 'ECommerceWeb/Fawry/payments/charge';
-        return $this->post(
-            $this->endpoint($url), [
+        $url = $this->app_debug ? 'https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/charge' :
+        'https://www.atfawry.com/ECommerceWeb/Fawry/payments/charge';
+        return $this->post($url, [
                 'merchantCode' => $this->merchant_code,
                 'merchantRefNum' => $merchantRefNum,
                 'paymentMethod' => 'CARD',
@@ -209,9 +197,9 @@ class Fawry
      */
     public function payByCardToken3DS($merchantRefNum, $customer_card_token, $cvv, $customer_id, $customer_name, $customer_mobile, $customer_email, $amount, $callbackURL, $chargeItems = [], $language = 'en-gb', $currency = 'EGP', $description = null)
     {
-        $url = 'ECommerceWeb/Fawry/payments/charge';
-        return $this->post(
-            $this->endpoint($url), [
+        $url = $this->app_debug ? 'https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/charge' :
+            'https://www.atfawry.com/ECommerceWeb/Fawry/payments/charge' ;
+        return $this->post($url, [
                 "merchantCode" => $this->merchant_code,
                 "customerName" => $customer_name,
                 "customerMobile" => $customer_mobile,
@@ -262,9 +250,9 @@ class Fawry
      */
     public function payByCard($merchantRefNum, $card_number, $card_expiry_year, $card_expiry_month, $cvv, $customer_id, $customer_name , $customer_mobile, $customer_email, $amount, array $chargeItems = [], $language = 'en-gb' , $currency = 'EGP' , $description = null)
     {
-        $url = 'ECommerceWeb/Fawry/payments/charge';
-        return $this->post(
-            $this->endpoint($url), [
+        $url = $this->app_debug ? 'https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/charge' :
+            'https://www.atfawry.com/ECommerceWeb/Fawry/payments/charge';
+        return $this->post($url, [
                 "merchantCode" => $this->merchant_code,
                 "customerName" => $customer_name,
                 "customerMobile" => $customer_mobile,
@@ -316,9 +304,9 @@ class Fawry
      */
     public function payByCard3DS($merchantRefNum, $card_number, $card_expiry_year, $card_expiry_month, $cvv, $customer_id, $customer_name , $customer_mobile, $customer_email, $amount, $calbackURL, array $chargeItems = [], $language = 'en-gb' , $currency = 'EGP' , $description = null)
     {
-        $url = 'ECommerceWeb/Fawry/payments/charge';
-        return $this->post(
-            $this->endpoint($url), [
+        $url = $this->app_debug ? 'https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/charge'
+            : 'https://www.atfawry.com/ECommerceWeb/Fawry/payments/charge';
+        return $this->post($url, [
                 "merchantCode" => $this->merchant_code,
                 "customerName" => $customer_name,
                 "customerMobile" => $customer_mobile,
@@ -362,19 +350,20 @@ class Fawry
      */
     public function refund($reference_number, $refund_amount, $reason = null)
     {
-        $url = 'ECommerceWeb/Fawry/payments/refund';
-        return $this->post(
-            $this->endpoint($url), [
+        $url = $this->app_debug  ? 'https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/refund' :
+            'https://www.atfawry.com/ECommerceWeb/Fawry/payments/refund';
+        return $this->post($url, [
                 'merchantCode' => $this->merchant_code,
                 'referenceNumber' => $reference_number,
-                'refundAmount' => $refund_amount,
+                'refundAmount' => (float) $refund_amount,
                 'reason' => $reason,
                 'signature' => hash(
                     'sha256',
                     $this->merchant_code .
                     $reference_number .
-                    number_format((float) $refund_amount, 2) .
-                    $this->merchant_code
+                    (float) $refund_amount .
+                    $reason .
+                    $this->merchant_key
                 )
             ]
         );
@@ -387,9 +376,9 @@ class Fawry
      * @return mixed
      */
     public function cancelUnpaidPayment($orderReferenceNumber, $lang = 'en-gb') {
-        $url = 'ECommerceWeb/api/orders/cancel-unpaid-order';
-        return $this->post(
-            $this->endpoint($url), [
+        $url = $this->app_debug ? 'https://atfawry.fawrystaging.com/ECommerceWeb/api/orders/cancel-unpaid-order' :
+            'https://www.atfawry.com/ECommerceWeb/api/orders/cancel-unpaid-order';
+        return $this->post($url, [
                 'merchantAccount' => $this->merchant_code,
                 'orderRefNo' => $orderReferenceNumber,
                 'lang' => $lang,
