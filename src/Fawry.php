@@ -160,7 +160,7 @@ class Fawry
                 'customerProfileId' => md5($customer_id),
                 'customerMobile' => $customer_mobile,
                 'customerEmail' => $customer_email,
-                'amount' => (float) $amount,
+                'amount' => number_format((float) $amount, 2, '.', ''),
                 'currencyCode' => $currency,
                 'chargeItems' => $chargeItems,
                 'description' => $description,
@@ -169,7 +169,7 @@ class Fawry
                     $merchantRefNum.
                     md5($customer_id) .
                     'CARD' .
-                    (float) $amount.
+                    number_format((float) $amount, 2, '.', '').
                     $customer_card_token .
                     $this->merchant_key
                 )
@@ -206,7 +206,7 @@ class Fawry
                 "cardToken" => $customer_card_token,
                 "cvv" => $cvv,
                 "merchantRefNum" => $merchantRefNum,
-                "amount" => (float) $amount,
+                "amount" => number_format((float) $amount, 2, '.', ''),
                 "currencyCode" => $currency,
                 "language" => $language,
                 "chargeItems" => $chargeItems,
@@ -217,7 +217,7 @@ class Fawry
                     $merchantRefNum .
                     md5($customer_id) .
                     'CARD' .
-                    (float) $amount .
+                    number_format((float) $amount, 2, '.', '') .
                     $customer_card_token .
                     $cvv .
                     $callbackURL .
@@ -261,7 +261,7 @@ class Fawry
                 "cardExpiryMonth" => $card_expiry_month,
                 "cvv" => $cvv,
                 "merchantRefNum" => $merchantRefNum,
-                "amount" => (float) $amount,
+                "amount" => number_format((float) $amount, 2, '.', ''),
                 "currencyCode" => $currency,
                 "language" => $language,
                 "chargeItems" => $chargeItems,
@@ -271,7 +271,7 @@ class Fawry
                     $merchantRefNum .
                     md5($customer_id) .
                     'CARD' .
-                    (float) $amount .
+                    number_format((float) $amount, 2, '.', '') .
                     $card_number .
                     $card_expiry_year .
                     $card_expiry_month .
@@ -315,7 +315,7 @@ class Fawry
                 "cardExpiryMonth" => $card_expiry_month,
                 "cvv" => $cvv,
                 "merchantRefNum" => $merchantRefNum,
-                "amount" => (float) $amount,
+                "amount" => number_format((float) $amount, 2, '.', ''),
                 "currencyCode" => $currency,
                 "language" => $language,
                 "chargeItems" => $chargeItems,
@@ -328,7 +328,7 @@ class Fawry
                     $merchantRefNum .
                     md5($customer_id) .
                     'CARD' .
-                    (float) $amount .
+                    number_format((float) $amount, 2, '.', '') .
                     $card_number .
                     $card_expiry_year .
                     $card_expiry_month .
