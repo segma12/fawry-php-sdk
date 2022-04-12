@@ -193,7 +193,7 @@ class Fawry
      * @param null $description
      * @return mixed
      */
-    public function payByCardToken3DS($merchantRefNum, $customer_card_token, $cvv, $customer_id, $customer_name, $customer_mobile, $customer_email, $amount, $callbackURL, $chargeItems = [], $language = 'en-gb', $currency = 'EGP', $description = null)
+    public function payByCardToken3DS($merchantRefNum, $customer_card_token, $cvv, $customer_id, $customer_name, $customer_mobile, $customer_email, $amount, $callbackURL, $chargeItems = [], $authCaptureModePayment = false, $language = 'en-gb', $currency = 'EGP', $description = null)
     {
         $url = $this->app_debug ? 'https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/charge' :
             'https://www.atfawry.com/ECommerceWeb/Fawry/payments/charge' ;
@@ -211,7 +211,7 @@ class Fawry
                 "language" => $language,
                 "chargeItems" => $chargeItems,
                 "enable3DS" => true,
-                "authCaptureModePayment" => true,
+                "authCaptureModePayment" => $authCaptureModePayment,
                 "returnUrl" => $callbackURL,
                 "signature" => hash('sha256', $this->merchant_code.
                     $merchantRefNum .
@@ -300,7 +300,7 @@ class Fawry
      * @param null $description
      * @return mixed
      */
-    public function payByCard3DS($merchantRefNum, $card_number, $card_expiry_year, $card_expiry_month, $cvv, $customer_id, $customer_name , $customer_mobile, $customer_email, $amount, $calbackURL, array $chargeItems = [], $language = 'en-gb' , $currency = 'EGP' , $description = null)
+    public function payByCard3DS($merchantRefNum, $card_number, $card_expiry_year, $card_expiry_month, $cvv, $customer_id, $customer_name , $customer_mobile, $customer_email, $amount, $calbackURL, array $chargeItems = [], $authCaptureModePayment = false, $language = 'en-gb' , $currency = 'EGP' , $description = null)
     {
         $url = $this->app_debug ? 'https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/charge'
             : 'https://www.atfawry.com/ECommerceWeb/Fawry/payments/charge';
@@ -322,7 +322,7 @@ class Fawry
                 "paymentMethod" => "CARD",
                 "description" => $description,
                 "enable3DS" => true,
-                "authCaptureModePayment" => false,
+                "authCaptureModePayment" => $authCaptureModePayment,
                 "returnUrl" => $calbackURL,
                 "signature" => hash("sha256", $this->merchant_code .
                     $merchantRefNum .
