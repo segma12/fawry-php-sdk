@@ -353,13 +353,13 @@ class Fawry
         return $this->post($url, [
                 'merchantCode' => $this->merchant_code,
                 'referenceNumber' => $reference_number,
-                'refundAmount' => (float) $refund_amount,
+                'refundAmount' => number_format((float) $refund_amount, 2, '.', ''),
                 'reason' => $reason,
                 'signature' => hash(
                     'sha256',
                     $this->merchant_code .
                     $reference_number .
-                    (float) $refund_amount .
+                    number_format((float) $refund_amount, 2, '.', '').
                     $reason .
                     $this->merchant_key
                 )
